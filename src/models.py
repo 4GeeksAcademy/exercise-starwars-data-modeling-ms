@@ -33,15 +33,25 @@ class Personaje(Base):
     nacimiento = Column(String(250))
     favoritos = relationship('Favorito', back_populates='personaje')
 
+class Vehiculo(Base):
+    __tablename__ = 'vehiculo'
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(250), nullable=False, unique=True)
+    modelo = Column(String(250))
+    fabricante = Column(String(250))
+    favoritos = relationship('Favorito', back_populates='vehiculo')
+
 class Favorito(Base):
     __tablename__ = 'favorito'
     id = Column(Integer, primary_key=True)
     usuario_id = Column(Integer, ForeignKey('usuario.id'), nullable=False)
     planeta_id = Column(Integer, ForeignKey('planeta.id'), nullable=True)
     personaje_id = Column(Integer, ForeignKey('personaje.id'), nullable=True)
+    vehiculo_id = Column(Integer, ForeignKey('vehiculo.id'), nullable=True)
     usuario = relationship('Usuario', back_populates='favoritos')
     planeta = relationship('Planeta', back_populates='favoritos')
     personaje = relationship('Personaje', back_populates='favoritos')
+    vehiculo = relationship('Vehiculo', back_populates='favoritos')
 
     def to_dict(self):
         return {}
